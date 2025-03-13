@@ -9,6 +9,7 @@
   "scripts": {
     "start:server": "node app.js",
     "start:client": "npm start --prefix client",
+    "build": "cd client && npm install && npm run build",
     "start": "concurrently \"npm run start:server\" \"npm run start:client\""
   },
   "dependencies": {
