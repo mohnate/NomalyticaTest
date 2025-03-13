@@ -61,12 +61,12 @@ const ROOMS = [
 const RoomsScreen = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
-    const [ socket, setSocket ] = useState();
+    const [socket, setSocket] = useState();
 
-    const updateSocket = store( state => state.updateSocket );
+    const updateSocket = store(state => state.updateSocket);
 
     const onClickRoom = (roomName) => {
-        if( roomName !== 'Classic Room' )
+        if (roomName !== 'Classic Room')
             return;
 
         const data = {};
@@ -74,10 +74,10 @@ const RoomsScreen = () => {
         data.username = state.username;
         data.friendMatch = state.friendMatch;
 
-        if( !state.friendMatch ) {
-            socket.emit( socketEvents['CS_MatchPlayLogin'], data );
+        if (!state.friendMatch) {
+            socket.emit(socketEvents['CS_MatchPlayLogin'], data);
         } else {
-            socket.emit( socketEvents['CS_CreateRoom'], data );
+            socket.emit(socketEvents['CS_CreateRoom'], data);
         }
     }
 
@@ -101,37 +101,39 @@ const RoomsScreen = () => {
     }
 
     useEffect(() => {
-        var skt = io.connect(`http://${window.location.hostname}:${socketServerPort}`);
-        setSocket( skt );
-        skt.on( socketEvents['SC_RoomCreated'], (params) => handleRoomCreated(params) );
-        updateSocket( skt );
+        var skt = io.connect(window.location.hostname === 'localhost'
+            ? `http://${window.location.hostname}:${socketServerPort}`
+            : window.location.origin);
+        setSocket(skt);
+        skt.on(socketEvents['SC_RoomCreated'], (params) => handleRoomCreated(params));
+        updateSocket(skt);
     }, []);
 
     return (
-      <div
-        className="rooms"
-      >
-        <div className="rooms-container">
-            <div className="rooms-container-header">1 VS 1 MODE</div>
-            <div className="rooms-container-content">
-                <p className="rooms-container-content-desc">There are 5 different rooms. Two players each put in the specified amount of LLG (based on the room type) into a pool. After each game, whoever wins the game takes all the LLG in the pool.</p>
-                <div className="rooms-container-content-rooms">
-                    {
-                        ROOMS.map((room, index) => (
-                            <div className={`rooms-container-content-room ${ room.name !== 'Classic Room' ? 'closed' : '' }`} key={index} style={{backgroundImage: `url(${room.bg})`}} onClick={() => onClickRoom(room.name)}>
-                                <div className="rooms-container-content-room-icon" style={{backgroundImage: `url(${room.icon})`}}></div>
-                                <div className="rooms-container-content-room-texts">
-                                    <div className="rooms-container-content-room-name">{room.name}</div>
-                                    <div className="rooms-container-content-room-pool">{room.pool}</div>
-                                    <div className="rooms-container-content-room-desc">{room.desc}</div>
+        <div
+            className="rooms"
+        >
+            <div className="rooms-container">
+                <div className="rooms-container-header">1 VS 1 MODE</div>
+                <div className="rooms-container-content">
+                    <p className="rooms-container-content-desc">There are 5 different rooms. Two players each put in the specified amount of LLG (based on the room type) into a pool. After each game, whoever wins the game takes all the LLG in the pool.</p>
+                    <div className="rooms-container-content-rooms">
+                        {
+                            ROOMS.map((room, index) => (
+                                <div className={`rooms-container-content-room ${room.name !== 'Classic Room' ? 'closed' : ''}`} key={index} style={{ backgroundImage: `url(${room.bg})` }} onClick={() => onClickRoom(room.name)}>
+                                    <div className="rooms-container-content-room-icon" style={{ backgroundImage: `url(${room.icon})` }}></div>
+                                    <div className="rooms-container-content-room-texts">
+                                        <div className="rooms-container-content-room-name">{room.name}</div>
+                                        <div className="rooms-container-content-room-pool">{room.pool}</div>
+                                        <div className="rooms-container-content-room-desc">{room.desc}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))
-                    }
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-      </div>
     );
 }
 
