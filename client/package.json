@@ -29,8 +29,8 @@
     "zustand": "^3.6.8"
   },
   "scripts": {
+    "build": "react-scripts --openssl-legacy-provider build --output-path ./dist",
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
