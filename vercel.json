@@ -2,10 +2,10 @@
   "version": 2,
   "builds": [
     {
-      "src": "client/package.json",
+      "src": "build.bat",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "client/build"
+        "distDir": "build"
       }
     }
   ],
@@ -15,10 +15,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/client/build/index.html"
+      "dest": "/$1"
     }
-  ],
-  "env": {
-    "CI": "false"
-  }
+  ]
 }
