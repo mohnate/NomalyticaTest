@@ -5,8 +5,7 @@
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "client/build",
-        "buildCommand": "cd client && CI=false npm run build"
+        "distDir": "client/build"
       }
     }
   ],
@@ -18,5 +17,8 @@
       "src": "/(.*)",
       "dest": "/client/build/index.html"
     }
-  ]
+  ],
+  "env": {
+    "CI": "false"
+  }
 }
